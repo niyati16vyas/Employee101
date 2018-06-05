@@ -1,0 +1,6 @@
+<!--Container component containing header, body and footer call-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+        <c:HeaderComponent />
+        <c:BodyComponent />
+        <c:FooterComponent />
+</aura:component>

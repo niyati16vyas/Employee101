@@ -1,0 +1,21 @@
+<!--popup modal for "Add Certificate" functionality component-->
+<aura:component controller="MyDemoController" access="global">
+ <lightning:overlayLibrary aura:id="overlayLib"/>
+ <form class="slds-form--stacked">          
+            <lightning:input aura:id="Certificate_Name" label="Name"
+                             Name="Certificate_Name"
+                             required="true"/> 
+   <lightning:input aura:id="Certificate_Link" label="Link"
+                             Name="Certificate_Link"
+                             required="true"/>
+         <lightning:input aura:id="Certificate_Date" label="Valid Till" type="Date"
+                             name="Certificate_Date"
+                             required="true"/>
+            <lightning:button label="Save" 
+                              title="Save"
+                              class="slds-m-top--medium"
+                              variant="brand"
+                              onclick="{!c.AddCertificate}"/>
+ </form>
+   
+</aura:component>

@@ -1,0 +1,111 @@
+<!--Aura Body Component for Application Employee101-->
+<aura:component implements="forceCommunity:searchInterface" controller="MyDemoController">
+<!--Attribute and Handler Initialization-->
+        <aura:handler name="init" value="{!this}" action="{!c.myAction}"/>
+        <aura:attribute name="userInfo" type="sObject"/> 
+        <aura:attribute name="certiInfo" type="Certificate__c[]" />
+        <aura:attribute name="emerInfo" type="sObject" />
+        <aura:attribute name="Search_Contact" type="Contact[]" />       
+        <lightning:overlayLibrary aura:id="overlayLib"/>
+<!--Lightning table and tabs for Various details-->        
+        <lightning:tabset variant="vertical">
+<!--Personal Details Tab-->
+            <lightning:tab label="Personal Details:">
+                <table style="width:100%" class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <tr class="slds-text-title_caps">
+                          <th scope="col">FirstName:</th>
+                          <td>{!v.userInfo.FirstName}</td>
+                        </tr>
+                        <tr class="slds-text-title_caps">
+                          <th scope="col">Last Name:</th>
+                          <td>{!v.userInfo.LastName}</td>
+                        </tr>
+                        <tr class="slds-text-title_caps">
+                          <th scope="col">Designation:</th>
+                          <td>{!v.userInfo.Designation__c}</td>
+                        </tr>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">Technology: </th>
+                            <td>{!v.userInfo.Technology__c}</td>
+                        </tr>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">Soical Media: </th>
+                            <td>{!v.userInfo.Social_Media_Link__c}</td>
+                        </tr>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">Interests:</th>
+                            <td>{!v.userInfo.Interests__c}</td>
+                        </tr>
+                      </table>
+                </lightning:tab>
+<!--Emergency Contact Tab-->
+                <lightning:tab label="Emergency Contact:">
+                        <table style="width:100%" class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <th class="slds-text-title_caps">
+                                  <tr scope="col">Name:</tr>
+                                  <td>{!v.emerInfo.Name}</td>
+                                </th>
+                                <th class="slds-text-title_caps">
+                                  <tr scope="col">Number:</tr>
+                                  <td>{!v.emerInfo.Phone}</td>
+                                </th>
+                                <th class="slds-text-title_caps">
+                                  <tr scope="col">Email:</tr>
+                                  <td>{!v.emerInfo.Email}</td>
+                                </th>
+                                
+                                <th class="slds-text-title_caps">
+                                    <tr scope="col">Relationship:</tr>
+                                    <td>{!v.emerInfo.Relationship__c}</td>
+                                </th>
+                        </table>
+                </lightning:tab>
+<!--Certification Tab-->
+                <lightning:tab label="Certificate" class="slds-tabs--default__nav li.slds-active">
+                        <lightning:button name="modal" label="Show Modal" onclick="{!c.handleShowModal}" />
+                        
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_cell-buffer">
+                            <tr>
+                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                    <div class="slds-truncate" title="Name"><b>Name</b></div>
+                                </th>
+                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                    <div class="slds-truncate" title="Link"><b>Link</b></div>
+                                </th>
+                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                    <div class="slds-truncate" title="Expiration"><b>Expiration</b></div>
+                                </th>                
+                            </tr>
+                             <aura:iteration items="{!v.certiInfo}" var="certi">     
+                                <tr>
+                                    <td scope="col">
+                                        <div class="slds-truncate">{! certi.Name }</div>
+                                    </td> 
+                                    <td scope="col">
+                                        <div class="slds-truncate">{! certi.Link__c }</div>
+                                    </td> 
+                                    <td scope="col">
+                                        <div class="slds-truncate">{! certi.Valid_Till__c }</div>
+                                    </td>                     
+                                </tr>
+                            </aura:iteration> 
+                        </table>
+                </lightning:tab>
+<!--Know Your Colleagues Tab-->
+                <lightning:tab label="Know Your Colleagues">
+                        <lightning:input type="search" aura:id ="search" label="Search" name="search" placeholder="Enter Colleague Name" onchange="{!c.getSearchDetails}"/>
+                        <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_cell-buffer">
+                                <aura:iteration items="{!v.Search_Contact}" var="Scontact" >
+                                  <tr>
+                                    <td scope="col">
+                                      <div class="slds-truncate">
+                                        <lightning:button label="{!Scontact.Name}" value="{!Scontact}" onclick="{!c.gotoRecord}"></lightning:button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </aura:iteration> 
+                                
+                        </table>              
+                </lightning:tab>
+            </lightning:tabset>
+</aura:component>
