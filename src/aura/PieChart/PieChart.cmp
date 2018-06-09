@@ -1,0 +1,7 @@
+<!--Conponent to display pie chart of the number of certificates of each contact in the database-->
+<aura:component controller="MyDemoController" implements="flexipage:availableForAllPageTypes">
+	<ltng:require scripts="{!$Resource.Chart}" afterScriptsLoaded="{!c.generateChart}"/>
+    <div class="slds-box">
+		<canvas aura:id="linechart" height="1" width="5"></canvas>
+    </div>
+</aura:component>

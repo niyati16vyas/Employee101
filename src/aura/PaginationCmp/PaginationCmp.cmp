@@ -1,0 +1,61 @@
+<!--Pagination  Component for the "Know your colleagues" tab-->
+<aura:component controller="MyDemoController" access="global">
+<!--Attribute initialisation-->
+<aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+<aura:attribute name="maxPageNumber" type="Integer" required="true" />
+<aura:attribute type="Integer"      name="pageNumber"   default="1" />
+<aura:attribute type="Integer"      name="originalValue"/>
+<aura:registerEvent name="setAttribute" type="c:setMaxPageEvent"/>
+<aura:attribute name="togglePagi" type="Boolean"/>
+<aura:attribute name="All_Contact" type="List"/>
+<aura:attribute name="All_Certi" type="List"/>
+<aura:attribute name="displayList" type="List"/>
+<aura:attribute name="currentList" type="List"/>
+<aura:attribute name="Search_Contact" type="Contact[]" description="Hold the Contact List of Searched Keyword"/>
+<!--Handler initialisation-->            
+<aura:handler name="init" value="{!this}" action="{!c.myAction}" aura:id="max"/>
+
+<!--Search module to search desired contact-->
+<lightning:input type="search" aura:id="search" label="Search" name="search" placeholder="Enter Colleague Name" onchange="{!c.searchKey}"/>
+
+<!--Table to display contacts-->
+<table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_cell-buffer">
+    <tr>
+        <td><div class="slds-truncate">Name</div></td>
+        <td><div class="slds-truncate">No. of Certificates</div></td>
+    </tr>
+                      
+    <aura:iteration items="{!v.displayList}" var="Acontact" indexVar="key">
+    <tr>
+        <td scope="col">
+            <div class="slds-truncate"><a  onclick="{!c.showContact}" id="{!Acontact.Id}" aura:id="link">{!Acontact.Name}</a> <br/>
+            </div>
+        </td>
+        <td scope="col">
+            <div class="slds-truncate"> {!Acontact.count}<br/>
+            </div>
+        </td>
+        </tr>
+    </aura:iteration>
+</table>
+
+<!--Page numbers and page navigation buttons markup-->                 
+<div class="slds-button-group" role="group">
+    <button onclick="{!c.firstPage}" class="slds-button slds-button--neutral">
+        First
+    </button>
+    <button onclick="{!c.prevPage}" class="slds-button slds-button--neutral">
+        Previous
+    </button>
+    <button class="slds-button slds-button--neutral">
+        {!v.currentPageNumber} / {!v.maxPageNumber}
+    </button>
+    <button onclick="{!c.nextPage}" class="slds-button slds-button--neutral">
+        Next
+    </button>
+    <button onclick="{!c.lastPage}" class="slds-button slds-button--neutral">
+        Last
+    </button>
+</div>
+            
+</aura:component>
