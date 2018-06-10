@@ -1,31 +1,31 @@
 <!--Aura Body Component for Application Employee101-->
-<aura:component implements="forceCommunity:searchInterface" controller="MyDemoController">
+<aura:component implements="forceCommunity:searchInterface" controller="Employee101Controller">
 <!--Attribute and Handler Initialization-->
     <aura:handler name="init" value="{!this}" action="{!c.myAction}"/>
     <aura:handler  name="setAttribute" event="c:setMaxPageEvent" action="{!c.setAttributeValue}"/>
+    <!--Implementing the overlay library for pop-up modals-->
     <lightning:overlayLibrary aura:id="overlayLib"/>
 
-    <aura:attribute name="userInfo" type="Id"/> 
-    <aura:attribute name="certiInfo" type="Certificate__c[]" />
-    <aura:attribute name="emerInfo" type="sObject" />
-    <aura:attribute name="conInfo" type="sObject" />
-    <aura:attribute name="Search_Contact" type="Contact[]" />       
-    <aura:attribute name="isTru" type="Boolean"/>      
-    <aura:attribute name="Emerg_cnt" type="Boolean"/>
-    <aura:attribute name="DeleterecordId" type="id"/>
-    <aura:attribute name="ShowEmergencyCon" type="Boolean"/>
-    <aura:attribute name="sectionLabels" type="Map" />
-    <aura:attribute name="Cons" type="Contact[]"/>
-    <aura:attribute name="pageNumber" type="Integer" default="1" />
-    <aura:attribute name="maxPage" type="Integer" default="1" />
-    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="userInfo" type="Id" description="Attribute to store the personal details of the user"/> 
+    <aura:attribute name="certiInfo" type="Certificate__c[]" description="Attribute to store the Certificate details of the user"/>
+    <aura:attribute name="emerInfo" type="sObject" description="Attribute to store the emergency contact details of the user"/>
+    <aura:attribute name="conInfo" type="sObject" description="Attribute to store the contact details"/>
+    <aura:attribute name="Search_Contact" type="Contact[]" description="Attribute for storing results of search module"/>       
+    <aura:attribute name="asynctrue" type="Boolean" description="Attribute to initialize async call to show personal details using LDS"/>      
+    <aura:attribute name="Emerg_cnt" type="Boolean" description="checks emergency contact count to ensure at least one emergency contact remains for a user"/>
+    <aura:attribute name="DeleterecordId" type="id" description="Attribute to delete the emergency contact"/>
+    <aura:attribute name="ShowEmergencyCon" type="Boolean" description="Attribute to initialise async call to the emergency contact display using LDS"/>
+    <aura:attribute name="sectionLabels" type="Map" description="Attribute to map all the contacts to their details page"/>
+    <aura:attribute name="pageNumber" type="Integer" default="1" description="Attribute to store the page number for pagination in know your colleagues tab"/>
+    <aura:attribute name="maxPage" type="Integer" default="1" description="Attribute to store the maximum page number for pagination in know your colleagues tab"/>
+    <aura:attribute name="personal" type="Object" description="Attribute to store the target field for personal details using LDS"/>
     
     <!--Map Values using Lightining Design System-->
-    <aura:if isTrue="{!v.isTru}">
+    <aura:if isTrue="{!v.asynctrue}">
         <force:recordData aura:id="recordLoader"
                         recordId="{!v.userInfo}"
                         fields="FirstName, LastName, Designation__c, Technology__c, Social_Media_Link__c, Interests__c"
-                        targetFields="{!v.simpleRecord}"
+                        targetFields="{!v.personal}"
     />
     </aura:if>
     <!--Lightning table and tabs for Various details-->        
@@ -35,27 +35,27 @@
             <table style="width:100%" class="slds-table slds-table_bordered slds-table_cell-buffer">
                 <tr class="slds-text-title_caps">
                     <th scope="col">FirstName:</th>
-                    <td>{!v.simpleRecord.FirstName}</td>
+                    <td>{!v.personal.FirstName}</td>
                 </tr>
                 <tr class="slds-text-title_caps">
                     <th scope="col">Last Name:</th>
-                    <td>{!v.simpleRecord.LastName}</td>
+                    <td>{!v.personal.LastName}</td>
                 </tr>
                 <tr class="slds-text-title_caps">
                     <th scope="col">Designation:</th>
-                    <td>{!v.simpleRecord.Designation__c}</td>
+                    <td>{!v.personal.Designation__c}</td>
                 </tr>
                 <tr class="slds-text-title_caps">
                     <th scope="col">Technology: </th>
-                    <td>{!v.simpleRecord.Technology__c}</td>
+                    <td>{!v.personal.Technology__c}</td>
                 </tr>
                 <tr class="slds-text-title_caps">
                     <th scope="col">Soical Media: </th>
-                    <td>{!v.simpleRecord.Social_Media_Link__c}</td>
+                    <td>{!v.personal.Social_Media_Link__c}</td>
                 </tr>
                 <tr class="slds-text-title_caps">
                     <th scope="col">Interests:</th>
-                    <td>{!v.simpleRecord.Interests__c}</td>
+                    <td>{!v.personal.Interests__c}</td>
                 </tr>
             </table>
         </lightning:tab>
@@ -101,58 +101,58 @@
                     </td> 
                     <td>
                         <aura:if isTrue="{!v.Emerg_cnt>1}">
-                            <lightning:button label="Delete" value="{!Econtact.Id}" onclick="{!c.Delete_Emer_Contact}"/>
+                            <lightning:button label="Delete" value="{!Econtact.Id}" onclick="{!c.deleteEmerContact}"/>
                         </aura:if> 
                     </td>
-                                        </tr>   
-                                        </aura:iteration>
-                                        </table>
-                </lightning:tab>
-                <!--Certification Tab-->
-                <lightning:tab label="Certificate">
-                        <!--Add Certificate pop-up modal-->
-                        <lightning:button name="modal" label="Add Certificate" onclick="{!c.handleShowModal}" />
+                </tr>   
+            </aura:iteration>
+            </table>
+        </lightning:tab>
+        <!--Certification Tab-->
+            <lightning:tab label="Certificate">
+                    <!--Add Certificate pop-up modal-->
+                    <lightning:button name="modal" label="Add Certificate" onclick="{!c.handleShowModal}" />
                         
-                        <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_cell-buffer">
+                    <table class="slds-table slds-table_bordered slds-table_col-bordered slds-table_cell-buffer">
+                        <tr>
+                            <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                <div class="slds-truncate" title="Name"><b>Name</b></div>
+                            </th>
+                            <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                <div class="slds-truncate" title="Link"><b>Link</b></div>
+                            </th>
+                            <th scope="col" class="slds-text-title_caps slds-text-heading_label">
+                                <div class="slds-truncate" title="Expiration"><b>Expiration</b></div>
+                            </th>                
+                        </tr>
+                        <aura:iteration items="{!v.certiInfo}" var="certi" indexVar="indx" >     
                             <tr>
-                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
-                                    <div class="slds-truncate" title="Name"><b>Name</b></div>
-                                </th>
-                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
-                                    <div class="slds-truncate" title="Link"><b>Link</b></div>
-                                </th>
-                                <th scope="col" class="slds-text-title_caps slds-text-heading_label">
-                                    <div class="slds-truncate" title="Expiration"><b>Expiration</b></div>
-                                </th>                
+                                <td scope="col">
+                                    <div class="slds-truncate">{! certi.Name }</div>
+                                </td> 
+                                <td scope="col">
+                                    <div class="slds-truncate">{! certi.Link__c}</div>
+                                </td> 
+                                <td scope="col">
+                                    <div class="slds-truncate">{! certi.Valid_Till__c}</div>
+                                </td>
+                                <!--Edit Functionality-->  
+                                <td>
+                                    <lightning:button name="modal1" label="Edit" value="{!indx}" onclick="{!c.edit}" />
+                                </td>                   
                             </tr>
-                             <aura:iteration items="{!v.certiInfo}" var="certi" indexVar="indx" >     
-                                <tr>
-                                    <td scope="col">
-                                        <div class="slds-truncate">{! certi.Name }</div>
-                                    </td> 
-                                    <td scope="col">
-                                        <div class="slds-truncate">{! certi.Link__c}</div>
-                                    </td> 
-                                    <td scope="col">
-                                        <div class="slds-truncate">{! certi.Valid_Till__c}</div>
-                                    </td>
-                                    <!--Edit Functionality-->  
-                                    <td>
-                                        <lightning:button name="modal1" label="Edit" value="{!indx}" onclick="{!c.edit}" />
-                                    </td>                   
-                                </tr>
                                
-                            </aura:iteration> 
-                        </table>
-                        <!--Redirect to pie chart module-->
-                        <div class="slds-box">
-                            <c:PieChart/>
-                        </div>
-                </lightning:tab>
-                <!--Know Your Colleagues Tab-->
-                <lightning:tab label="Know Your Colleagues">
-                    <c:PaginationCmp currentPageNumber="{!v.pageNumber}" 
-                    maxPageNumber="{!v.maxPage}"/>
-                </lightning:tab>
-            </lightning:tabset>
+                        </aura:iteration> 
+                    </table>
+                    <!--Redirect to pie chart module-->
+                    <div class="slds-box">
+                        <c:PieChart/>
+                    </div>
+            </lightning:tab>
+            <!--Know Your Colleagues Tab-->
+            <lightning:tab label="Know Your Colleagues">
+                <c:PaginationCmp currentPageNumber="{!v.pageNumber}" 
+                maxPageNumber="{!v.maxPage}"/>
+            </lightning:tab>
+        </lightning:tabset>
 </aura:component>

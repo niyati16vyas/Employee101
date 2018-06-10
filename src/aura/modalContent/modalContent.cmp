@@ -1,5 +1,5 @@
 <!--popup modal for "Add Certificate" and  "Edit Certificate" functionality-->
-<aura:component controller="MyDemoController" access="global">
+<aura:component controller="Employee101Controller" access="global">
  <aura:attribute name="certiId" type="String" default=""/>
  <aura:attribute name="certiName" type="String" default=""/>
  <aura:attribute name="certiLink" type="String" default=""/> 

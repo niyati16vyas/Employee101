@@ -41,7 +41,7 @@
 //Controller for Modal pop-up to add new certificate
     handleShowModal: function(component, evt, helper) {
         var modalBody;
-        $A.createComponent("c:modalContent", {},
+        $A.createComponent("c:ModalContent", {},
             function(content, status) {
                 if (status === "SUCCESS") {
                     modalBody = content;
@@ -59,7 +59,7 @@
     },
 
 //Controller for deleting emergency contact(s)
-    Delete_Emer_Contact : function(component, event, helper){
+    deleteEmerContact : function(component, event, helper){
         console.log("Entering Delete Stage");
         var a =event.getSource().get("v.value");
         console.log(a);
@@ -94,7 +94,7 @@
         console.log(a);
         console.log("CNAME : " + cname[a].Name);
         var modalBody;
-        $A.createComponent("c:modalContent", {"certiId":cname[a].Id,"certiName":cname[a].Name, "certiLink":cname[a].Link__c, "certiValid":cname[a].Valid_Till__c},
+        $A.createComponent("c:ModalContent", {"certiId":cname[a].Id,"certiName":cname[a].Name, "certiLink":cname[a].Link__c, "certiValid":cname[a].Valid_Till__c},
             function(content, status) {
                 if (status === "SUCCESS") {
                     modalBody = content;

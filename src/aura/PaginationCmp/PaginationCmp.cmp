@@ -1,5 +1,5 @@
 <!--Pagination  Component for the "Know your colleagues" tab-->
-<aura:component controller="MyDemoController" access="global">
+<aura:component controller="Employee101Controller" access="global">
 <!--Attribute initialisation-->
 <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
 <aura:attribute name="maxPageNumber" type="Integer" required="true" />
