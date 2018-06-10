@@ -1,9 +1,9 @@
 <!--popup modal for "Add Certificate" and  "Edit Certificate" functionality-->
 <aura:component controller="Employee101Controller" access="global">
- <aura:attribute name="certiId" type="String" default=""/>
- <aura:attribute name="certiName" type="String" default=""/>
- <aura:attribute name="certiLink" type="String" default=""/> 
- <aura:attribute name="certiValid" type="Date" default=""/>    
+ <aura:attribute name="certiId" type="String" default="" description="attribute to store id of the given certificate"/>
+ <aura:attribute name="certiName" type="String" default="" description="attribute to store name of the given certificate"/>
+ <aura:attribute name="certiLink" type="String" default="" description="attribute to store link to the given certificate"/> 
+ <aura:attribute name="certiValid" type="Date" default="" description="attribute to store the expiration date of the given certificate"/>    
                 
  <lightning:overlayLibrary aura:id="overlayLib"/>
  <form class="slds-form--stacked">          

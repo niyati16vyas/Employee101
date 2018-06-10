@@ -1,15 +1,15 @@
 <!--Pagination  Component for the "Know your colleagues" tab-->
 <aura:component controller="Employee101Controller" access="global">
 <!--Attribute initialisation-->
-<aura:attribute name="currentPageNumber" type="Integer" default="1"/>
-<aura:attribute name="maxPageNumber" type="Integer" required="true" />
-<aura:attribute type="Integer"      name="pageNumber"   default="1" />
-<aura:attribute type="Integer"      name="originalValue"/>
+<aura:attribute name="currentPageNumber" type="Integer" default="1" description="attribute to store current page numnber for pagination"/>
+<aura:attribute name="maxPageNumber" type="Integer" required="true" description="attribute to store maximum page number for the pagination"/>
+<aura:attribute name="pageNumber" type="Integer" default="1" description="attribute to store the page number for pagination"/>
+<aura:attribute name="originalValue" type="Integer" description="attribute to store" />
 <aura:registerEvent name="setAttribute" type="c:setMaxPageEvent"/>
-<aura:attribute name="togglePagi" type="Boolean"/>
-<aura:attribute name="All_Contact" type="List"/>
-<aura:attribute name="All_Certi" type="List"/>
-<aura:attribute name="displayList" type="List"/>
+<aura:attribute name="togglePagi" type="Boolean" description="attribute to store the value of toggle buttons in pagination"/>
+<aura:attribute name="All_Contact" type="List" description="attribute to store contact information"/>
+<aura:attribute name="All_Certi" type="List" description="attribute to store number of certificates of the contact"/>
+<aura:attribute name="displayList" type="List" description="attribute to store display values for the know your colleagues page"/>
 <aura:attribute name="currentList" type="List"/>
 <aura:attribute name="Search_Contact" type="Contact[]" description="Hold the Contact List of Searched Keyword"/>
 <!--Handler initialisation-->            

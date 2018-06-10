@@ -1,7 +1,7 @@
 <!--Header Component-->
 <aura:component controller="MyDemoController">
-    <aura:attribute name="greeting_text" type="string" default="Morning" />
-    <aura:attribute name="username_text" type="string" default="User"/>
+    <aura:attribute name="greeting_text" type="string" default="Morning" description="attribute to store greeting text, i.e. morning/evening based ont the time of the day"/>
+    <aura:attribute name="username_text" type="string" default="User" description="attribute to store current user name"/>
     <aura:handler name="init" value="{!this}" action="{!c.get_greeting}"/>
     <header class="slds-page-header">
     	<center>
